@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<form action="" method="POST">
+    {{ form.hidden_tag() }}
+    {{ form.name.label }} {{ form.name() }}
+    {{ form.phone_no.label }} {{ form.phone_no() }}
+    {{ form.email.label }} {{ form.email() }}
+    {{ form.submit() }}
+</form>
+
+{% endblock %}

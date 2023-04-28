@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h1>Home</h1>
+    <ul>
+        <li><a href="{{ url_for('add_ingredient')}}">Add Ingredient</a></li>
+        <li><a href="{{ url_for('add_supplier')}}">Add Supplier</a></li>
+        <li><a href="{{ url_for('add_supplier_ingredient')}}">Add Supplier Ingredient</a></li>
+    </ul>
+
+    <hr size="3">
+
+    <table border="2">
+        <thead>
+            <tr>
+                <th>Ingredient Name</th>
+                <th>Measurement</th>
+                <th>Unit Cost</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for ingredient in ingredients %}
+            <tr>
+                <td>{{ ingredient.name }}</td>
+                <td>{{ ingredient.unit_of_measurement }}</td>
+                <td>{{ ingredient.unit_cost }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <hr size="3">
+    
+    <table border="2">
+        <thead>
+            <tr>
+                <th>Supplier Name</th>
+                <th>Phone No.</th>
+                <th>Email</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for supplier in suppliers %}
+            <tr>
+                <td>{{ supplier.name }}</td>
+                <td>{{ supplier.phone_no }}</td>
+                <td>{{ supplier.email }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+{% endblock %}

@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+    <h1>Add Supplier Ingredient</h1>
+    <form action="" method="POST">
+        {{ form.hidden_tag() }}
+        <div>
+            {{ form.supplier.label }} {{ form.supplier() }}
+        </div>
+        <div>
+            {{ form.ingredients.label }}
+            {% for ingredient in form.ingredients %}
+                {{ ingredient() }} {{ ingredient.label}}
+            {% endfor %}
+        </div>
+    </form>
+
+{% endblock %}
