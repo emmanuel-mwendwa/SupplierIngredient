@@ -2,31 +2,80 @@
 
 {% block content %}
   <h1>Add Supplier Ingredient</h1>
-  <form method="POST">
-    {{ form.hidden_tag() }}
-    <div class="form-group">
-      {{ form.supplier.label }}<br>
-      {{ form.supplier() }}
-    </div>
-    <div class="form-group">
-        {{ form.ingredients.label }}<br>
-        {% for subfield in form.ingredients %}
-        <div class="form-check">
-          {{ subfield(checked=false) }}
-          {{ subfield.label }}
-        </div>
-            {% if subfield.checked %}
-            <div class="form-group">
-                {% if loop.index <= form.unit_costs.length() %}
-                    {{ form.unit_costs[loop.index0].label }}
-                    {{ form.unit_costs[loop.index0]() }}
-                {% endif %}
-            </div>
-            {% endif %}
+
+  <form id="dataform" method="POST">
+    
+      <select name="supplier" id="supplier">
+        <!-- defaults to an empty value -->
+        <option value=""></option>
+        {% for supplier in suppliers%}
+          <option value="{{supplier}}">{{supplier}}</option>
         {% endfor %}
-    </div>
-    <div class="form-group">
-      {{ form.submit() }}
-    </div>
+      </select>
+      {% for ingredient in ingredients %}
+        <label for="{{ingredient}}">{{ingredient}}</label>
+        <input type="checkbox" name="{{ingredient}}">
+        <input type="text" data-value="{{ingredient}}">
+      {% endfor%}
+      <button>Add</button>
   </form>
+
 {% endblock %}
+
+{% block scripts %}
+<script>
+
+
+  const supplierFiller = {}
+  
+  const checkboxes = document.querySelectorAll('input[type="checkbox"]')
+
+
+  
+  const supplierSelected = document.getElementById('supplier') 
+  
+  const form = document.getElementById("dataform")
+
+  form.addEventListener('submit', (event)=>{
+    event.preventDefault()
+    let url = event.target.action
+
+      console.log(supplierFiller)
+      fetch(url, {
+        method:"POST",
+        headers:{'Content-Type': 'application/json' },
+        body:JSON.stringify(supplierFiller)
+      })
+    
+  })
+
+  
+
+  supplierSelected.addEventListener('change', (event)=>{
+
+    if(event.target.value !== ''){
+      supplierFiller['supplier'] = event.target.value;
+    }
+  })
+
+  // add a check eventlistener
+  checkboxes.forEach(function(checkbox) {
+    checkbox.addEventListener('change', function() {
+      if (this.checked) {
+        // checkbox is checked, do something
+        let associatedInput = document.querySelector(`[data-value=${checkboxes[0].name}]`)
+
+        associatedInput.addEventListener('change', ()=>{
+
+          supplierFiller[`${checkbox.name}`] = associatedInput.value
+        })
+
+      } else {
+        // checkbox is unchecked, do something
+        console.log('Checkbox with value ' + this.value + ' is unchecked');
+      }
+    });
+});
+</script>
+{% endblock %}
+
