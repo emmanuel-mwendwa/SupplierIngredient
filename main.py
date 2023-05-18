@@ -158,6 +158,8 @@ def post_supplier_ingredient():
         )
     ]
 
+    print(ingreditents)
+
     for ingredient in ingreditents:
 
         if ingredient is not None:

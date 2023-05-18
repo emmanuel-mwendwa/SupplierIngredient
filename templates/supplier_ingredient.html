@@ -26,7 +26,7 @@
 <script>
 
 
-  const supplierFiller = {}
+  let supplierFiller = {}
   
   const checkboxes = document.querySelectorAll('input[type="checkbox"]')
 
@@ -40,7 +40,6 @@
     event.preventDefault()
     let url = event.target.action
 
-      console.log(supplierFiller)
       fetch(url, {
         method:"POST",
         headers:{'Content-Type': 'application/json' },
@@ -59,17 +58,25 @@
   })
 
   // add a check eventlistener
-  checkboxes.forEach(function(checkbox) {
-    checkbox.addEventListener('change', function() {
-      if (this.checked) {
+  checkboxes.forEach(function(checkbox, index) {
+    checkbox.addEventListener('change', function(event) {
+      if (event.target.checked) {
         // checkbox is checked, do something
-        let associatedInput = document.querySelector(`[data-value=${checkboxes[0].name}]`)
+        let associatedInput = document.querySelector(`[data-value=${checkboxes[index].name}]`)
 
         associatedInput.addEventListener('change', (event)=>{
 
           if(event.target.value !== ''){
 
+            let key = checkbox.name
+
+            let associatedValue = associatedInput.value
+
+            supplierFiller = {...supplierFiller, key:associatedValue}
+
             supplierFiller[`${checkbox.name}`] = associatedInput.value
+
+            console.log(associatedInput.value)
           }
 
         })
