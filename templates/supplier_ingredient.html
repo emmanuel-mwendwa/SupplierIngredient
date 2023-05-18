@@ -65,9 +65,13 @@
         // checkbox is checked, do something
         let associatedInput = document.querySelector(`[data-value=${checkboxes[0].name}]`)
 
-        associatedInput.addEventListener('change', ()=>{
+        associatedInput.addEventListener('change', (event)=>{
 
-          supplierFiller[`${checkbox.name}`] = associatedInput.value
+          if(event.target.value !== ''){
+
+            supplierFiller[`${checkbox.name}`] = associatedInput.value
+          }
+
         })
 
       } else {
